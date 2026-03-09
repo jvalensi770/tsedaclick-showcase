@@ -158,6 +158,36 @@ This allows running the full production flow against isolated demo data without 
 
 ---
 
+---
+
+## iOS — Swift / UIKit
+
+The [`ios/`](ios/) directory contains a separate Swift sample from the donor-facing iOS app.
+
+```
+┌────────────────────────────────────────┐
+│  ViewControllers + ViewModels (MVVM)   │  ← UIKit, no business logic
+├────────────────────────────────────────┤
+│  Model (CurrentUser, domain objects)   │  ← state, domain rules
+├────────────────────────────────────────┤
+│  Data Sources (protocol façades)       │  ← RemoteDataSource / SystemDataSource
+├────────────────────────────────────────┤
+│  Firestore / UserDefaults / Functions  │  ← concrete implementations
+└────────────────────────────────────────┘
+```
+
+| File | What it shows |
+|---|---|
+| [`ios/domain/Asso.swift`](ios/domain/Asso.swift) | Main domain struct — value type, Equatable by id, extensions split by concern |
+| [`ios/domain/Recurring.swift`](ios/domain/Recurring.swift) | Anchor encoding (quarter-hour index), two named Equatable semantics |
+| [`ios/data/RemoteProtocols.swift`](ios/data/RemoteProtocols.swift) | Four protocols by responsibility — ViewModels depend on protocols, never on Firestore |
+| [`ios/model/CurrentUser.swift`](ios/model/CurrentUser.swift) | Smart property singleton — reads/writes routed to correct store, debit eligibility rule |
+| [`ios/viewmodels/MainVM.swift`](ios/viewmodels/MainVM.swift) | Static MVVM — `didSet` → NSNotification, amount-to-image mapping, session → domain object |
+
+See [`ios/README.md`](ios/README.md) for a detailed walkthrough of the iOS architecture and key patterns.
+
+---
+
 ## What this repo does NOT include
 
 - Authentication / authorization (Firebase Auth + custom claims, handled upstream)
