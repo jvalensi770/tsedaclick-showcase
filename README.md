@@ -160,6 +160,40 @@ This allows running the full production flow against isolated demo data without 
 
 ---
 
+## Android — Kotlin / Jetpack Compose
+
+The [`android/`](android/) directory contains a Kotlin sample from the donor-facing Android app.
+
+```
+┌──────────────────────────────────────────────────────────┐
+│  Fragment / ComposeView (UI)                             │  ← Views, no logic
+├──────────────────────────────────────────────────────────┤
+│  ViewModel (LiveData / StateFlow)                        │  ← UI state
+├──────────────────────────────────────────────────────────┤
+│  Model / CurrentUser (object singleton)                  │  ← domain state
+├──────────────────────────────────────────────────────────┤
+│  Data Source Interfaces (suspend fun)                    │  ← coroutine-first API
+├──────────────────────────────────────────────────────────┤
+│  Firestore / SharedPreferences                           │  ← concrete implementations
+└──────────────────────────────────────────────────────────┘
+```
+
+| File | What it shows |
+|---|---|
+| [`android/domain/Asso.kt`](android/domain/Asso.kt) | Aggregate with id-only equality, Firestore key constants, multilingual name resolution, extension functions for presentation and serialization |
+| [`android/domain/DonationEligibility.kt`](android/domain/DonationEligibility.kt) | Sealed class result type + pure `object` service — no Android dependencies, fully unit-testable |
+| [`android/data/RemoteInterfaces.kt`](android/data/RemoteInterfaces.kt) | `suspend fun` interfaces over Firestore — coroutine-first, mockable via top-level `lateinit var` |
+| [`android/model/CurrentUser.kt`](android/model/CurrentUser.kt) | Kotlin `object` singleton — property forwarding to SharedPreferences + Firestore (fire-and-forget coroutines) |
+| [`android/viewmodel/TsedakaSessionVM.kt`](android/viewmodel/TsedakaSessionVM.kt) | LiveData-based ViewModel shared across fragments via `activityViewModels()` |
+| [`android/viewmodel/PaymentDialogsVM.kt`](android/viewmodel/PaymentDialogsVM.kt) | Four `StateFlow<Boolean>` + `@Composable` extensions on the ViewModel + `PaymentDialogsUI` as a Composable extension on Fragment |
+| [`android/ui/CustomDialog.kt`](android/ui/CustomDialog.kt) | Reusable `@Composable` dialog driven by `MutableStateFlow<Boolean>` |
+| [`android/ui/HistoryScreen.kt`](android/ui/HistoryScreen.kt) | LazyColumn, sealed class dispatch, `@Composable` extension functions on domain objects |
+| [`android/ui/HistoryViewListItem.kt`](android/ui/HistoryViewListItem.kt) | Sealed class with abstract `@Composable` methods — each subclass owns its rendering as polymorphic slots |
+
+See [`android/README.md`](android/README.md) for a detailed walkthrough of the Android architecture and Compose patterns.
+
+---
+
 ## iOS — Swift / UIKit
 
 The [`ios/`](ios/) directory contains a separate Swift sample from the donor-facing iOS app.
