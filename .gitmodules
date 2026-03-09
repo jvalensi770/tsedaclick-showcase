@@ -1,0 +1,6 @@
+[submodule "ios-full"]
+	path = ios-full
+	url = https://github.com/jvalensi770/tsedaclickXCode.git
+[submodule "android-full"]
+	path = android-full
+	url = https://github.com/jvalensi770/tsedaclickAndroid.git

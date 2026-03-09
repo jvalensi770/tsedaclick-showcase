@@ -162,6 +162,8 @@ This allows running the full production flow against isolated demo data without 
 
 ## Android — Kotlin / Jetpack Compose
 
+The [`android/`](android/) directory contains an annotated extract of the most architecturally significant files. The **full Android project** is available as a submodule at [`android-full/`](android-full/) → [github.com/jvalensi770/tsedaclickAndroid](https://github.com/jvalensi770/tsedaclickAndroid).
+
 The [`android/`](android/) directory contains a Kotlin sample from the donor-facing Android app.
 
 ```
@@ -195,6 +197,8 @@ See [`android/README.md`](android/README.md) for a detailed walkthrough of the A
 ---
 
 ## iOS — Swift / UIKit
+
+The [`ios/`](ios/) directory contains an annotated extract of the most architecturally significant files. The **full iOS project** is available as a submodule at [`ios-full/`](ios-full/) → [github.com/jvalensi770/tsedaclickXCode](https://github.com/jvalensi770/tsedaclickXCode).
 
 The [`ios/`](ios/) directory contains a separate Swift sample from the donor-facing iOS app.
 
